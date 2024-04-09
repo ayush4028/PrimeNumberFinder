@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        .container {
+            max-width: 800px;
+        }
+        .output-table {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-8 text-center">Prime Number Finder</h1>
+        <div class="w-full max-w-md mx-auto">
+            <form id="primeForm" class="mb-8">
+                <div class="flex items-center mb-4">
+                    <label for="numberInput" class="mr-2">Enter a number:</label>
+                    <input type="number" id="numberInput" name="numberInput" class="px-2 py-1 border rounded-md flex-grow" required>
+                </div>
+                <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Find Prime Numbers</button>
+            </form>
+            <div id="outputTable" class="hidden">
+                <h2 class="text-xl font-bold mb-2 text-center">Prime Numbers:</h2>
+                <div class="output-table">
+                    <table class="border-collapse border border-gray-500 w-full">
+                        <thead>
+                            <tr>
+                                <th class="border border-gray-500 px-4 py-2">Prime Number</th>
+                            </tr>
+                        </thead>
+                        <tbody id="primeNumbersBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function isPrime(num) {
+            for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return num > 1;
+        }
+
+        document.getElementById('primeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const numberInput = parseInt(document.getElementById('numberInput').value);
+            const primeNumbers = [];
+
+            for (let i = 2; i < numberInput; i++) {
+                if (isPrime(i)) {
+                    primeNumbers.push(i);
+                }
+            }
+
+            const outputTable = document.getElementById('outputTable');
+            const primeNumbersBody = document.getElementById('primeNumbersBody');
+
+            primeNumbersBody.innerHTML = '';
+            primeNumbers.forEach(function(prime) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = prime;
+                row.appendChild(cell);
+                primeNumbersBody.appendChild(row);
+            });
+
+            outputTable.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
